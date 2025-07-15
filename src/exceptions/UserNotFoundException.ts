@@ -7,7 +7,7 @@ export class UserNotFoundException extends Error {
 
   constructor(message: string, statusCode = 404) {
     super(message);
-    this.name = "UserNotFound";
+    this.name = 'UserNotFound';
     this.statusCode = statusCode;
   }
 }

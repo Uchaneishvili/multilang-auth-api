@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
-import { User } from "../types/user";
-import { Response } from "express";
+import jwt from 'jsonwebtoken';
+import { User } from '../types/user';
+import { Response } from 'express';
 
 /**
  * Generates a JWT for a given user.
@@ -8,7 +8,7 @@ import { Response } from "express";
 const generateJwt = (
   user: User,
   secret: string,
-  expiresIn: string | number = "24d"
+  expiresIn: string | number = '24d'
 ): string => {
   const token = jwt.sign(
     {
@@ -32,17 +32,17 @@ const generateAccessAndRefreshToken = (user: User, res: Response) => {
   const jwtRefreshSecret = process.env.JWT_SECRET_KEY_REFRESH;
 
   if (!jwtSecret || !jwtRefreshSecret) {
-    throw new Error("JWT secrets are not configured in environment variables");
+    throw new Error('JWT secrets are not configured in environment variables');
   }
 
-  const token = generateJwt(user, jwtSecret, "12d");
-  const refreshToken = generateJwt(user, jwtRefreshSecret, "24d");
+  const token = generateJwt(user, jwtSecret, '12d');
+  const refreshToken = generateJwt(user, jwtRefreshSecret, '24d');
 
-  res.cookie("token", token, {
+  res.cookie('token', token, {
     maxAge: 24 * 24 * 60 * 60 * 1000, // 24 days
     httpOnly: true,
   });
-  res.cookie("token.refresh", refreshToken, {
+  res.cookie('token.refresh', refreshToken, {
     maxAge: 24 * 24 * 60 * 60 * 1000, // 24 days
     httpOnly: true,
   });

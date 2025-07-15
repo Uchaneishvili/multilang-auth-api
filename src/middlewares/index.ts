@@ -1,6 +1,6 @@
-import Validator from "./validator.middleware";
-import globalErrorHandler from "./globalHandler.middleware";
-import { createUserValidator, userSignInValidator } from "../validations";
+import Validator from './validator.middleware';
+import globalErrorHandler from './globalHandler.middleware';
+import { createUserValidator, userSignInValidator } from '../validations';
 
 export {
   Validator,

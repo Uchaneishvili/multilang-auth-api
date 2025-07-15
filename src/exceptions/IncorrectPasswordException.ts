@@ -7,7 +7,7 @@ export class IncorrectPasswordException extends Error {
 
   constructor(message: string, statusCode = 401) {
     super(message);
-    this.name = "IncorrectPassword";
+    this.name = 'IncorrectPassword';
     this.statusCode = statusCode;
   }
 }

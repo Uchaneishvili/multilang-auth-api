@@ -1,5 +1,5 @@
-import bcrypt from "bcrypt";
-import logger from "./logger";
+import bcrypt from 'bcrypt';
+import logger from './logger';
 
 /**
  * Hashes a password using bcrypt.

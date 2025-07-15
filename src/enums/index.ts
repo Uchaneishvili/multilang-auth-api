@@ -1,3 +1,3 @@
-import { resultCodes } from "./resultCodes";
+import { resultCodes } from './resultCodes';
 
 export { resultCodes };

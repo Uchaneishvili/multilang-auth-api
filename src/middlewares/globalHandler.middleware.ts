@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
-import { resultCodes } from "../enums";
-import logger from "../utils/logger";
+import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import { resultCodes } from '../enums';
+import logger from '../utils/logger';
 
 /**
  * Global error handling middleware.

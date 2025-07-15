@@ -7,7 +7,7 @@ export class InvalidTokenException extends Error {
 
   constructor(message: string, statusCode = 401) {
     super(message);
-    this.name = "AccessTokenInvalid";
+    this.name = 'AccessTokenInvalid';
     this.statusCode = statusCode;
   }
 }

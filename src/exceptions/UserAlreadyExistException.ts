@@ -7,7 +7,7 @@ export class UserAlreadyExistException extends Error {
 
   constructor(message: string, statusCode = 403) {
     super(message);
-    this.name = "UserAlreadyExist";
+    this.name = 'UserAlreadyExist';
     this.statusCode = statusCode;
   }
 }
