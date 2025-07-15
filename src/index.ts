@@ -7,6 +7,7 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 
 import { testDbConnection } from "./config/db-setup";
+import globalErrorHandler from "./middlewares/globalHandler.middleware";
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -45,6 +46,7 @@ app.get("/health", (req, res) => {
 });
 
 // Global error handler
+app.use(globalErrorHandler);
 
 // 404 handler
 app.use("*", (req, res) => {
