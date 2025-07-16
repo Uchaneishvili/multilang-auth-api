@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   app:
@@ -7,11 +7,12 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    env_file:
-      - .env
     ports:
-      - "8000:8000"
+      - '8000:8000'
     environment:
       - NODE_ENV=development
-    command: bash -c "npm install && npm run db:generate && npm run db:migrate && npm run dev"
+      - DATABASE_URL=${DATABASE_URL:-file:./dev.db}
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key-here}
+      - PORT=${PORT:-8000}
+    command: sh -c "npm install && npm run db:generate && npm run db:migrate && npm run dev"
     restart: unless-stopped
