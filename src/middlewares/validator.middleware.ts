@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 /**
  * Checks if an object is empty.
  */
-function isEmpty(obj: Record<string, any>): boolean {
+function isEmpty(obj: Record<string, unknown>): boolean {
   return Object.keys(obj).length === 0;
 }
 
@@ -22,7 +22,7 @@ export default function Validator(validator: Joi.ObjectSchema) {
   ): Promise<void> {
     try {
       const { body, query, params } = req;
-      const target: { body?: any; query?: any; params?: any } = {};
+      const target: { body?: unknown; query?: unknown; params?: unknown } = {};
       if (!isEmpty(body)) target.body = body;
       if (!isEmpty(query)) target.query = query;
       if (!isEmpty(params)) target.params = params;
