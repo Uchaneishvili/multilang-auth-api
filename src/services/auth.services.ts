@@ -59,9 +59,17 @@ export class AuthService {
         throw new IncorrectPasswordException('Provided password is incorrect');
       }
 
+      const userWithoutPassword = {
+        id: user.id,
+        email: user.email,
+        fullname: user.fullname,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      };
+
       const { token, refreshToken } = generateAccessAndRefreshToken(user, res);
 
-      return { user, token, refreshToken };
+      return { user: userWithoutPassword, token, refreshToken };
     } catch (error) {
       logger.error('Error logging in:', error);
       throw error;
