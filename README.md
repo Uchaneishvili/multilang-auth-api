@@ -27,7 +27,7 @@ A robust Node.js/TypeScript REST API with user authentication, built with Expres
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/Uchaneishvili/multilang-next-app.git
+   git clone https://github.com/Uchaneishvili/multilang-auth-api.git
    cd multilang-api
    ```
 
