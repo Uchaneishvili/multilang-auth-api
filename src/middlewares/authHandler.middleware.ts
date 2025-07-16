@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { InvalidTokenException } from '../exceptions/InvalidTokenException';
-import '../types/express';
-
+import { IUserRegister } from '../types/user';
 /**
  * Middleware to handle JWT authentication.
  */
@@ -18,12 +17,12 @@ export const authHandler = (
 
   jwt.verify(
     token,
-    process.env.JWT_SECRET_KEY as string,
-    (err: jwt.VerifyErrors | null, user: any) => {
+    process.env.JWT_SECRET as string,
+    (err: jwt.VerifyErrors | null, decoded: unknown) => {
       if (err)
         return next(new InvalidTokenException('Access token is invalid.'));
 
-      req.user = user;
+      req.user = decoded as IUserRegister;
       next();
     }
   );

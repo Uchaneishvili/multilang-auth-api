@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import logger from '../utils/logger';
 
 const prisma = new PrismaClient({
   log:
@@ -10,10 +11,10 @@ const prisma = new PrismaClient({
 const testDbConnection = async () => {
   try {
     await prisma.$connect();
-    console.log('Connection has been established successfully.');
+    logger.info('Connection has been established successfully.');
     return true;
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    logger.error('Unable to connect to the database:', error);
     return false;
   }
 };
@@ -21,10 +22,10 @@ const testDbConnection = async () => {
 const runMigrations = async () => {
   try {
     await testDbConnection();
-    console.log('Database migrations should be run via: npm run db:migrate');
+    logger.info('Database migrations should be run via: npm run db:migrate');
     return true;
   } catch (error) {
-    console.error('Migration error:', error);
+    logger.error('Migration error:', error);
     throw new Error('Migration Error');
   }
 };
@@ -32,9 +33,9 @@ const runMigrations = async () => {
 const initializeDatabase = async () => {
   try {
     await testDbConnection();
-    console.log('Database initialization completed successfully.');
+    logger.info('Database initialization completed successfully.');
   } catch (error) {
-    console.error('Database initialization failed:', error);
+    logger.error('Database initialization failed:', error);
     throw error;
   }
 };
@@ -42,9 +43,9 @@ const initializeDatabase = async () => {
 const closeDatabase = async () => {
   try {
     await prisma.$disconnect();
-    console.log('Database connection closed.');
+    logger.info('Database connection closed.');
   } catch (error) {
-    console.error('Error closing database connection:', error);
+    logger.error('Error closing database connection:', error);
   }
 };
 

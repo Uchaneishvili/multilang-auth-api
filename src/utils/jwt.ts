@@ -28,7 +28,7 @@ const generateJwt = (
  * Generates access and refresh tokens for a user and sets them as cookies in the response.
  */
 const generateAccessAndRefreshToken = (user: User, res: Response) => {
-  const jwtSecret = process.env.JWT_SECRET_KEY;
+  const jwtSecret = process.env.JWT_SECRET;
   const jwtRefreshSecret = process.env.JWT_SECRET_KEY_REFRESH;
 
   if (!jwtSecret || !jwtRefreshSecret) {
@@ -53,4 +53,4 @@ const generateAccessAndRefreshToken = (user: User, res: Response) => {
   };
 };
 
-module.exports = { generateAccessAndRefreshToken };
+export { generateAccessAndRefreshToken };

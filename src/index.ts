@@ -1,28 +1,31 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
-import express from "express";
-import helmet from "helmet";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import rateLimit from "express-rate-limit";
-
-import { testDbConnection } from "./config/db-setup";
-import globalErrorHandler from "./middlewares/globalHandler.middleware";
+import express from 'express';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
+import swaggerUI from 'swagger-ui-express';
+const swaggerSpec = require('./swagger');
+import { testDbConnection } from './config/db-setup';
+import globalErrorHandler from './middlewares/globalHandler.middleware';
+import { setupRoutes } from './routes';
+import logger from './utils/logger';
 
 const app = express();
 const port = process.env.PORT || 8000;
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || "900000"), // 15 minutes
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || "100"), // limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP, please try again later.",
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000'), // 15 minutes
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100'), // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
 });
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN?.split(",") || ["http://localhost:8000"],
-  credentials: process.env.CORS_CREDENTIALS === "true",
+  origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:8000'],
+  credentials: process.env.CORS_CREDENTIALS === 'true',
   optionsSuccessStatus: 200,
 };
 
@@ -33,13 +36,15 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 // Routes
+setupRoutes(app);
 
 // Health check endpoint
-app.get("/health", (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).json({
-    status: "OK",
+    status: 'OK',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
   });
@@ -49,29 +54,24 @@ app.get("/health", (req, res) => {
 app.use(globalErrorHandler);
 
 // 404 handler
-app.use("*", (req, res) => {
+app.use('*', (req, res) => {
   res.status(404).json({
-    error: "Route not found",
+    error: 'Route not found',
     path: req.originalUrl,
   });
 });
 
 app.listen(port, async () => {
   try {
-    console.log(
-      `🚀 Server started on ${process.env.HOST || "localhost"}:${port}`
+    logger.info(
+      `🚀 Server started on ${process.env.HOST || 'localhost'}:${port}`
     );
-    console.log(`📊 Environment: ${process.env.NODE_ENV}`);
-    console.log(
-      `🔗 API Base URL: ${process.env.API_PREFIX || "/api"}/${
-        process.env.API_VERSION || "v1"
-      }`
-    );
+    logger.info(`📊 Environment: ${process.env.NODE_ENV}`);
 
     // Test database connection
     await testDbConnection();
   } catch (err) {
-    console.error("❌ Server startup error:", err);
+    logger.error('❌ Server startup error:', err);
     process.exit(1);
   }
 });
